@@ -149,6 +149,12 @@ defmodule Bamboo.Phoenix do
       "welcome_email.text" or "welcome_email.html". Scroll to the top for more examples.
       """
       def render(email, template, assigns \\ []) do
+        # phoenix 1.7 stopped assigning view_module and view_template assigns - this restores pre 1.7 behaviour
+        email =
+          email
+          |> assign(:view_module, vm)
+          |> assign(:view_template, template)
+
         Bamboo.Phoenix.render_email(unquote(view_module), email, template, assigns)
       end
     end
